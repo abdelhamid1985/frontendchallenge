@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+   <head>
+       // use hosted jquery
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+   </head>
+
+<body>
+
+	  <div id="container"></div>
+	  <img class="loader" src="https://i.stack.imgur.com/kOnzy.gif"  />
+      
+      <script type = "text/javascript">
+
+      	$(document).ready( function(){
+
+			// Results First Page number and url
+			var page_nbr = 1;
+			var repos_url = 'https://api.github.com/search/repositories?q=created:>2017-10-22&sort=stars&order=desc&per_page=6&page='+page_nbr;
+			
+
+			// Informe the user that the results are being loaded
+			$(".loader").show();
+			// Load the first page
+      		$.get(repos_url).done( function(data) {
+
+      		});
+
+
+
+      	});
+        
+      </script>
+
+   </body>
+</html>
