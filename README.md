@@ -1,4 +1,4 @@
-The web page use puse html with jquery as frontend framework.
+The web page use html with jquery as frontend framework.
 
 The objectifs if to make it simple and readable as much as possible.
 

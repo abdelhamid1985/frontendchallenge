@@ -1,8 +1,26 @@
 <!DOCTYPE html>
 <html>
    <head>
-       // use hosted jquery
+       <!-- use hosted jquery --> 
 	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	  <!-- block ui and force the user to wait for the page to load results -->
+	  <script src="https://malsup.github.io/jquery.blockUI.js"></script>
+
+	  <!-- Styling loading animated image --> 
+	  <style type="text/css">
+	
+		.loader {
+			display: none;
+			position: fixed;
+			left: 50%;
+			top: 50%;
+			width: 60px;
+			height: 60px;
+			margin-left: -30px;
+			margin-top: -30px;
+		}
+		
+	  </style>
 
    </head>
 
@@ -18,14 +36,61 @@
 			// Results First Page number and url
 			var page_nbr = 1;
 			var repos_url = 'https://api.github.com/search/repositories?q=created:>2017-10-22&sort=stars&order=desc&per_page=6&page='+page_nbr;
-			
 
 			// Informe the user that the results are being loaded
 			$(".loader").show();
 			// Load the first page
       		$.get(repos_url).done( function(data) {
 
+				$(".loader").hide();
+
+      			$.each(data.items, function(key,value) {
+
+				  var repoName = value.name;
+				  var repoDescription = value.description;
+				  var ownerName = value.owner.login;
+				  var ownerAvatar = value.owner.avatar_url;
+				  var repoNbStars = value.stargazers_count;
+				  var repoNbIssues = value.open_issues_count;
+
+				  // Building row html output
+				  var rowHtml = "<div style='margin: 25px;'>";
+
+				  // Show owner avatar
+				  rowHtml += "<img style='display: inline-block; width: 150px; height: 150px; vertical-align: top;' src='" + value.owner.avatar_url + "' />" ;
+
+				  // Show infos about the repo
+				  rowHtml += "<div style='display: inline-block; vertical-align: top; margin-left: 20px;'>";
+				  // Repo name
+				  rowHtml += "<div><h2>" + repoName + "</h2></div>";
+				  // Repo description
+				  rowHtml += "<div>" + repoDescription + "</div><br />";
+				  // Repo stars, issues, and days since repo creation
+				  rowHtml += "<div>";
+				  // Stars
+				  rowHtml += "<span style='display: inline-block; vertical-align: top; border: 2px solid #000000; padding: 6px; margin-right: 20px;'> Stars: " + repoNbStars + "</span>";
+				  // Issues
+				  rowHtml += "<span style='display: inline-block; vertical-align: top; border: 2px solid #000000; padding: 6px; margin-right: 20px;'> Issues: " + repoNbIssues + "</span>";
+				  // days since creation
+				  rowHtml += "<span style='display: inline-block; vertical-align: top; padding: 6px;'>Submitted x days ago by " + ownerName + "</span>";
+				  rowHtml += "</div>";
+
+				  rowHtml += "</div>";
+				  // End infos about the repo
+
+
+				  rowHtml += "</div>";
+				  // End row building
+
+
+				  $("#container").html( $("#container").html() + rowHtml );
+
+				}); 
+
+
       		});
+
+
 
 
 
