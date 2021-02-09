@@ -1,27 +1,23 @@
 <!DOCTYPE html>
 <html>
    <head>
-       <!-- use hosted jquery --> 
 	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	  <!-- block ui and force the user to wait for the page to load results -->
 	  <script src="https://malsup.github.io/jquery.blockUI.js"></script>
-
-	  <!-- Styling loading animated image --> 
+	  
 	  <style type="text/css">
 	
-		.loader {
-			display: none;
-			position: fixed;
-			left: 50%;
-			top: 50%;
-			width: 60px;
-			height: 60px;
-			margin-left: -30px;
-			margin-top: -30px;
-		}
-		
+	.loader {
+		display: none;
+		position: fixed;
+		left: 50%;
+		top: 50%;
+		width: 60px;
+		height: 60px;
+		margin-left: -30px;
+		margin-top: -30px;
+	}
+	
 	  </style>
-
    </head>
 
 <body>
@@ -32,6 +28,8 @@
       <script type = "text/javascript">
 
       	$(document).ready( function(){
+
+      		var to_day = new Date($.now());
 
 			// Results First Page number and url
 			var page_nbr = 1;
@@ -52,6 +50,12 @@
 				  var ownerAvatar = value.owner.avatar_url;
 				  var repoNbStars = value.stargazers_count;
 				  var repoNbIssues = value.open_issues_count;
+				  var repoCDate = Date.parse(value.created_at);
+
+				  // Calculating days since repo creation
+				  var Difference_In_Time = new Date(to_day).getTime() - new Date(repoCDate).getTime();
+				  var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+				  Difference_In_Days = Math.floor(Difference_In_Days);
 
 				  // Building row html output
 				  var rowHtml = "<div style='margin: 25px;'>";
@@ -72,7 +76,7 @@
 				  // Issues
 				  rowHtml += "<span style='display: inline-block; vertical-align: top; border: 2px solid #000000; padding: 6px; margin-right: 20px;'> Issues: " + repoNbIssues + "</span>";
 				  // days since creation
-				  rowHtml += "<span style='display: inline-block; vertical-align: top; padding: 6px;'>Submitted x days ago by " + ownerName + "</span>";
+				  rowHtml += "<span style='display: inline-block; vertical-align: top; padding: 6px;'>Submitted " + Difference_In_Days + " days ago by " + ownerName + "</span>";
 				  rowHtml += "</div>";
 
 				  rowHtml += "</div>";
@@ -89,7 +93,6 @@
 
 
       		});
-
 
 
 			// Detect if the user scrolled down to the bottom and load more results
@@ -118,12 +121,18 @@
 						var ownerAvatar = value.owner.avatar_url;
 						var repoNbStars = value.stargazers_count;
 						var repoNbIssues = value.open_issues_count;
+					    var repoCDate = Date.parse(value.created_at);
+
+					    // Calculating days since repo creation
+					    var Difference_In_Time = new Date(to_day).getTime() - new Date(repoCDate).getTime();
+					    var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+					    Difference_In_Days = Math.floor(Difference_In_Days);
 
 						// Building row html output
 						var rowHtml = "<div style='margin: 25px;'>";
 
 						// Show owner avatar
-						rowHtml += "<img style='display: inline-block; width: 150px; height: 150px; vertical-align: top;' src='" + value.owner.avatar_url + "' />" ;
+						rowHtml += "<img style='display:inline-block;width:150px;height:150px;vertical-align:top;' src='" + value.owner.avatar_url + "' />" ;
 
 						// Show infos about the repo
 						rowHtml += "<div style='display: inline-block; vertical-align: top; margin-left: 20px;'>";
@@ -138,7 +147,7 @@
 						// Issues
 						rowHtml += "<span style='display: inline-block; vertical-align: top; border: 2px solid #000000; padding: 6px; margin-right: 20px;'> Issues: " + repoNbIssues + "</span>";
 						// days since creation
-						rowHtml += "<span style='display: inline-block; vertical-align: top; padding: 6px;'>Submitted x days ago by " + ownerName + "</span>";
+						rowHtml += "<span style='display: inline-block; vertical-align: top; padding: 6px;'>Submitted  " + Difference_In_Days + " days ago by " + ownerName + "</span>";
 						rowHtml += "</div>";
 
 						rowHtml += "</div>";
@@ -163,9 +172,7 @@
 
 				}
 
-				});
-
-
+			});
 
       	});
         
